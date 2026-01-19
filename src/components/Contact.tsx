@@ -136,7 +136,7 @@ export default function Contact() {
           {/* Alternative contact */}
           <div className="mt-12 pt-8 border-t border-gray-200">
             <p className="text-center text-gray-500 text-sm mb-4">
-              Or reach out directly
+              Or reach out directly to
             </p>
             <div className="flex justify-center gap-6">
               <a
