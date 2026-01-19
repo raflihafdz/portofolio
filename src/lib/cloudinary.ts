@@ -1,12 +1,16 @@
 import { v2 as cloudinary } from 'cloudinary';
 
-// Cloudinary can be configured with CLOUDINARY_URL or individual credentials
+// Configure Cloudinary
+// CLOUDINARY_URL format: cloudinary://api_key:api_secret@cloud_name
 if (process.env.CLOUDINARY_URL) {
-  // Use CLOUDINARY_URL if provided (easier)
+  // Parse CLOUDINARY_URL
+  const url = new URL(process.env.CLOUDINARY_URL);
   cloudinary.config({
-    cloudinary_url: process.env.CLOUDINARY_URL
+    cloud_name: url.hostname,
+    api_key: url.username,
+    api_secret: url.password,
   });
-} else {
+} else if (process.env.CLOUDINARY_CLOUD_NAME && process.env.CLOUDINARY_API_KEY && process.env.CLOUDINARY_API_SECRET) {
   // Fall back to individual credentials
   cloudinary.config({
     cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
