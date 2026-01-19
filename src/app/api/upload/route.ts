@@ -1,10 +1,17 @@
 import { NextRequest, NextResponse } from "next/server"
-import { writeFile, mkdir } from "fs/promises"
-import path from "path"
-import { v4 as uuidv4 } from "uuid"
+import cloudinary from "@/lib/cloudinary"
 
 export async function POST(request: NextRequest) {
   try {
+    // Check if Cloudinary is configured
+    if (!process.env.CLOUDINARY_URL && (!process.env.CLOUDINARY_CLOUD_NAME || !process.env.CLOUDINARY_API_KEY || !process.env.CLOUDINARY_API_SECRET)) {
+      console.error("Cloudinary not configured")
+      return NextResponse.json(
+        { success: false, error: "Cloud storage not configured. Please contact administrator." },
+        { status: 500 }
+      )
+    }
+
     const formData = await request.formData()
     
     // Collect files from both "file" (single) and "files" (multiple)
@@ -31,30 +38,24 @@ export async function POST(request: NextRequest) {
       )
     }
 
-    const uploadDir = path.join(process.cwd(), "public", "uploads")
-    
-    // Create uploads directory if it doesn't exist
-    try {
-      await mkdir(uploadDir, { recursive: true })
-    } catch {
-      // Directory might already exist
-    }
-
     const uploadedFiles: { url: string; filename: string }[] = []
 
     for (const file of files) {
       const bytes = await file.arrayBuffer()
       const buffer = Buffer.from(bytes)
+      
+      // Convert buffer to base64 for Cloudinary
+      const base64 = buffer.toString('base64')
+      const dataURI = `data:${file.type};base64,${base64}`
 
-      // Generate unique filename
-      const ext = path.extname(file.name)
-      const filename = `${uuidv4()}${ext}`
-      const filepath = path.join(uploadDir, filename)
-
-      await writeFile(filepath, buffer)
+      // Upload to Cloudinary
+      const result = await cloudinary.uploader.upload(dataURI, {
+        folder: 'portfolio',
+        resource_type: 'auto',
+      })
 
       uploadedFiles.push({
-        url: `/uploads/${filename}`,
+        url: result.secure_url,
         filename: file.name,
       })
     }
@@ -74,8 +75,9 @@ export async function POST(request: NextRequest) {
     })
   } catch (error) {
     console.error("Error uploading files:", error)
+    const errorMessage = error instanceof Error ? error.message : "Unknown error"
     return NextResponse.json(
-      { success: false, error: "Failed to upload files" },
+      { success: false, error: "Failed to upload files", details: errorMessage },
       { status: 500 }
     )
   }
