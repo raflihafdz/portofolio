@@ -11,6 +11,7 @@ interface ProjectCardProps {
 export default function ProjectCard({ project }: ProjectCardProps) {
   const [isModalOpen, setIsModalOpen] = useState(false)
   const [currentImageIndex, setCurrentImageIndex] = useState(0)
+  const [imageError, setImageError] = useState(false)
 
   const allImages = project.images && project.images.length > 0
     ? project.images
@@ -34,12 +35,14 @@ export default function ProjectCard({ project }: ProjectCardProps) {
       >
         {/* Thumbnail */}
         <div className="relative aspect-video overflow-hidden bg-gray-100">
-          {project.thumbnail ? (
+          {project.thumbnail && !imageError ? (
             <Image
               src={project.thumbnail}
               alt={project.title}
               fill
               className="object-cover group-hover:scale-105 transition-transform duration-500"
+              onError={() => setImageError(true)}
+              loading="lazy"
             />
           ) : (
             <div className="w-full h-full flex items-center justify-center text-gray-400">
