@@ -42,7 +42,9 @@ export default function Footer() {
             <h4 className="font-semibold text-gray-900 mb-4">Connect</h4>
             <div className="flex space-x-4">
               <a
-                href="#"
+                href="https://github.com/raflihafdz"
+                target="_blank"
+                rel="noopener noreferrer"
                 className="w-10 h-10 rounded-full bg-gray-100 flex items-center justify-center text-gray-600 hover:bg-gray-200 hover:text-gray-900 transition-colors"
                 aria-label="GitHub"
               >
@@ -51,7 +53,9 @@ export default function Footer() {
                 </svg>
               </a>
               <a
-                href="#"
+                href="https://www.linkedin.com/in/rafli-hafidz-33b5162b9/"
+                target="_blank"
+                rel="noopener noreferrer"
                 className="w-10 h-10 rounded-full bg-gray-100 flex items-center justify-center text-gray-600 hover:bg-gray-200 hover:text-gray-900 transition-colors"
                 aria-label="LinkedIn"
               >
@@ -60,7 +64,7 @@ export default function Footer() {
                 </svg>
               </a>
               <a
-                href="#"
+                href="mailto:raflihaf47@gmail.com"
                 className="w-10 h-10 rounded-full bg-gray-100 flex items-center justify-center text-gray-600 hover:bg-gray-200 hover:text-gray-900 transition-colors"
                 aria-label="Email"
               >
