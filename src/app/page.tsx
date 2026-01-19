@@ -2,6 +2,9 @@ import { Header, Footer, Hero, About, Contact, Section } from "@/components"
 import prisma from "@/lib/prisma"
 import type { Section as SectionType } from "@/types"
 
+// Revalidate every 60 seconds or force dynamic
+export const revalidate = 60 // Revalidate page every 60 seconds
+
 async function getSections() {
   try {
     const sections = await prisma.section.findMany({
