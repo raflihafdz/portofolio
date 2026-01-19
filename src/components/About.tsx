@@ -27,6 +27,7 @@ export default async function About() {
                   alt="Profile"
                   fill
                   className="object-cover"
+                  unoptimized={settings.profileImage.startsWith('/uploads')}
                 />
               ) : (
                 <div className="w-full h-full flex items-center justify-center text-gray-400">
