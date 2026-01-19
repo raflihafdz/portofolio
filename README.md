@@ -104,11 +104,6 @@ npm run dev
 
 Open [http://localhost:3000](http://localhost:3000) to see the website.
 
-### Admin Access
-
-- URL: [http://localhost:3000/admin](http://localhost:3000/admin)
-- Email: `admin@example.com`
-- Password: `admin123`
 
 **⚠️ Change these credentials in production!**
 
